@@ -1,0 +1,11 @@
+{
+  "name": "mautic/focus",
+  "description": "Focus Plugin",
+  "type": "mautic-plugin",
+  "version": "1.0",
+  "keywords": ["mautic","plugin","integration"],
+  "extra": {
+    "install-directory-name": "MauticFocusBundle"
+  },
+  "minimum-stability": "dev"
+}
