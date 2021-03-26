@@ -1,5 +1,5 @@
 {
-  "name": "mautic/focus",
+  "name": "mautic/plugin-focus",
   "description": "Focus Plugin",
   "type": "mautic-plugin",
   "version": "1.0",
