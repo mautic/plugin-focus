@@ -1,6 +1,6 @@
 <?php
 
-namespace MauticPlugin\MauticFocusBundle\Tests\Helper;
+namespace MauticPlugin\MauticFocusBundle\Tests\Unit\Helper;
 
 use MauticPlugin\MauticFocusBundle\Helper\IframeAvailabilityChecker;
 use PHPUnit\Framework\MockObject\MockObject;
