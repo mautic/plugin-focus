@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MauticPlugin\MauticFocusBundle\Templating\Twig\Extension;
+namespace MauticPlugin\MauticFocusBundle\Twig\Extension;
 
 use MauticPlugin\MauticFocusBundle\Model\FocusModel;
 use Twig\Extension\AbstractExtension;
@@ -34,7 +34,7 @@ class FocusBundleExtension extends AbstractExtension
 
     public function compileLess(string $less): string
     {
-        require_once __DIR__.'/../../../Include/lessc.inc.php';
+        require_once __DIR__.'/../../Include/lessc.inc.php';
 
         return (new \lessc())->compile($less);
     }
