@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MauticPlugin\MauticFocusBundle\Templating\Twig\Extension;
+namespace MauticPlugin\MauticFocusBundle\Twig\Extension;
 
 use MauticPlugin\MauticFocusBundle\Model\FocusModel;
 use Twig\Extension\AbstractExtension;
@@ -34,13 +34,13 @@ class FocusBundleExtension extends AbstractExtension
 
     public function compileLess(string $less): string
     {
-        require_once __DIR__.'/../../../Include/lessc.inc.php';
+        $parser = new \Less_Parser();
 
-        return (new \lessc())->compile($less);
+        return $parser->parse($less)->getCss();
     }
 
     public function minifyCss(string $css): string
     {
-        return \Minify_CSS::minify($css);
+        return \Minify_CSSmin::minify($css);
     }
 }
