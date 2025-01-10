@@ -3,8 +3,7 @@
     <span>{{ 'mautic.core.search.more'|trans({'%count%': remaining}) }}</span>
   </a>
 {% else %}
-  {% if canEdit %}
-    <a href="{{ url('mautic_focus_action', {'objectAction': 'edit', 'objectId': item.id}) }}" data-toggle="ajax">
+    <a href="{{ url('mautic_focus_action', {'objectAction': 'view', 'objectId': item.id}) }}" data-toggle="ajax">
       <span class="fw-sb">{{ item.name }}</span>
       <span class="ml-4 mr-sm">#{{ item.getId() }}</span>
       {{- include('@MauticCore/Helper/publishstatus_badge.html.twig', {
@@ -13,8 +12,5 @@
         'simplified': 'true'
       }) -}}
     </a>
-  {% else %}
-    <span class="fw-sb">{{ item.name }}</span>
-  {% endif %}
   <div class="clearfix"></div>
 {% endif %}
