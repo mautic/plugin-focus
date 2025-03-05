@@ -5,7 +5,6 @@ namespace MauticPlugin\MauticFocusBundle\Controller;
 use Doctrine\Persistence\ManagerRegistry;
 use Mautic\CacheBundle\Cache\CacheProvider;
 use Mautic\CoreBundle\Controller\AbstractStandardFormController;
-use Mautic\CoreBundle\Factory\MauticFactory;
 use Mautic\CoreBundle\Factory\ModelFactory;
 use Mautic\CoreBundle\Form\Type\DateRangeType;
 use Mautic\CoreBundle\Helper\CoreParametersHelper;
