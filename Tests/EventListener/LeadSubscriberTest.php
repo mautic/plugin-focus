@@ -61,19 +61,21 @@ class LeadSubscriberTest extends CommonMocks
         $this->router         = $this->createMock(RouterInterface::class);
         $this->focusModel     = $this->createMock(FocusModel::class);
         $this->statRepository = $this->createMock(StatRepository::class);
-        $matcher = $this->any();
+        $matcher              = $this->any();
 
         $this->translator->expects($matcher)
             ->method('trans')->willReturnCallback(function (...$parameters) use ($matcher) {
-            if ($matcher->getInvocationCount() === 1) {
-                $this->assertSame('mautic.focus.event.view', $parameters[0]);
-                return self::EVENT_TYPE_VIEW_NAME;
-            }
-            if ($matcher->getInvocationCount() === 2) {
-                $this->assertSame('mautic.focus.event.click', $parameters[0]);
-                return self::EVENT_TYPE_CLICK_NAME;
-            }
-        });
+                if (1 === $matcher->getInvocationCount()) {
+                    $this->assertSame('mautic.focus.event.view', $parameters[0]);
+
+                    return self::EVENT_TYPE_VIEW_NAME;
+                }
+                if (2 === $matcher->getInvocationCount()) {
+                    $this->assertSame('mautic.focus.event.click', $parameters[0]);
+
+                    return self::EVENT_TYPE_CLICK_NAME;
+                }
+            });
     }
 
     /**
