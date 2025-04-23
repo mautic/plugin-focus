@@ -211,7 +211,7 @@ final class ReportSubscriber implements EventSubscriberInterface
                 self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id')
             ->groupBy(self::PREFIX_STATS.'.focus_id', self::PREFIX_STATS.'.type');
 
-        if($event->hasColumn(self::PREFIX_FOCUS.'.category')) {
+        if ($event->hasColumn(self::PREFIX_FOCUS.'.category')) {
             $queryBuilder->leftJoin(self::PREFIX_FOCUS, MAUTIC_TABLE_PREFIX.'categories', self::PREFIX_CATEGORIES,
                 self::PREFIX_FOCUS.'.category_id = '.self::PREFIX_CATEGORIES.'.id');
         }
