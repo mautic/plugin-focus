@@ -17,6 +17,7 @@ final class ReportSubscriber implements EventSubscriberInterface
     public const PREFIX_STATS        = 'fs';
     public const PREFIX_REDIRECTS    = 'r';
     public const PREFIX_TRACKABLES   = 't';
+    public const PREFIX_CATEGORIES   = 'c';
 
     public static function getSubscribedEvents(): array
     {
@@ -36,6 +37,18 @@ final class ReportSubscriber implements EventSubscriberInterface
         }
 
         $columns = [
+            self::PREFIX_FOCUS.'.id' => [
+                'label'   => 'mautic.core.id',
+                'type'    => 'html',
+                'alias'   => 'focus_id',
+                'formula' => 'MAX('.self::PREFIX_FOCUS.'.id)',
+            ],
+            self::PREFIX_FOCUS.'.category' => [
+                'label'   => 'mautic.core.category',
+                'type'    => 'html',
+                'alias'   => 'category_name',
+                'formula' => 'MAX('.self::PREFIX_CATEGORIES.'.title)',
+            ],
             self::PREFIX_FOCUS.'.name' => [
                 'label'   => 'mautic.core.name',
                 'type'    => 'html',
@@ -132,6 +145,11 @@ final class ReportSubscriber implements EventSubscriberInterface
             ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'page_redirects', self::PREFIX_REDIRECTS,
                 self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id')
             ->groupBy(self::PREFIX_STATS.'.focus_id', self::PREFIX_STATS.'.type');
+
+        if($event->hasColumn(self::PREFIX_FOCUS.'.category')) {
+            $queryBuilder->leftJoin(self::PREFIX_FOCUS, MAUTIC_TABLE_PREFIX.'categories', self::PREFIX_CATEGORIES,
+                self::PREFIX_FOCUS.'.category_id = '.self::PREFIX_CATEGORIES.'.id');
+        }
 
         $event->applyDateFilters($queryBuilder, 'date_added', self::PREFIX_STATS);
         $event->setQueryBuilder($queryBuilder);
