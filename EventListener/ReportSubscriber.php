@@ -193,7 +193,10 @@ final class ReportSubscriber implements EventSubscriberInterface
         $this->addFocusLeadsTable($event, $columns);
     }
 
-    private function addFocusLeadsTable(&$event, $columns): void
+    /**
+     * @param array<string, array<string, string>> $columns
+     */
+    private function addFocusLeadsTable(ReportBuilderEvent $event, array $columns): void
     {
         $columnsLeads = [
             self::PREFIX_LEADS.'.id' => [
@@ -329,6 +332,7 @@ final class ReportSubscriber implements EventSubscriberInterface
 
         $event->addTable(self::CONTEXT_FOCUS_LEADS, $data, self::FOCUS_GROUP);
     }
+
     /**
      * Initialize the QueryBuilder object to generate reports from.
      */
@@ -369,7 +373,6 @@ final class ReportSubscriber implements EventSubscriberInterface
                 $queryBuilder->groupBy(self::PREFIX_STATS.'.focus_id', self::PREFIX_STATS.'.type');
                 break;
         }
-
 
         $event->applyDateFilters($queryBuilder, 'date_added', self::PREFIX_STATS);
         $event->setQueryBuilder($queryBuilder);
