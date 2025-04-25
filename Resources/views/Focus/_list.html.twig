@@ -96,5 +96,77 @@
         }) }}
     </div>
 {% else %}
-    {{ include('@MauticCore/Helper/noresults.html.twig', {'tip': 'mautic.focus.noresults.tip'}) }}
+    {% if searchValue is not empty %}
+        {{ include('@MauticCore/Helper/noresults.html.twig', {'tip': 'mautic.focus.noresults.tip'}) }}
+    {% else %}
+        <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
+            {% set childContainer %}
+                <!-- <div class="type-body-02 mb-32">
+                    {% include '@MauticCore/Components/list-unordered--checkmark.html.twig' with {
+                        'items': [
+                            'Standard contact forms, newsletter sign-ups, demo requests.',
+                            'Offer valuable assets (ebooks, guides) in exchange for form submission.',
+                            'Collect sign-ups for webinars, workshops, or conferences.',
+                            'Allow contacts to update their preferences or information.',
+                            'Create simple survey or feedback forms.',
+                        ]
+                    } %}
+                </div> -->
+                <div class="mb-md">
+                    {% include '@MauticCore/Helper/pictogram.html.twig' with {
+                        'pictogram': 'spotlight',
+                        'size': '80'
+                    } %}
+                </div>
+
+                {{ include('@MauticCore/Components/content-item-row--default.html.twig', {
+                    eyebrow: 'mautic.focus.onboarding.eyebrow',
+                    heading: 'mautic.focus.onboarding.purpose.heading',
+                    copy: 'mautic.focus.onboarding.purpose.copy',
+                }) }}
+                
+                {% set formFeaturesContainer %}
+                <div class="row">
+                    {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
+                        eyebrow: 'mautic.focus.onboarding.style.eyebrow',
+                        heading: 'mautic.focus.onboarding.style.bar.heading',
+                        pictogram: 'web--banners',
+                        copy: 'mautic.focus.onboarding.style.bar.copy',
+                    }) }}
+                    {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
+                        eyebrow: 'mautic.focus.onboarding.style.eyebrow',
+                        heading: 'mautic.focus.onboarding.style.modal.heading',
+                        pictogram: 'design-and-development--01',
+                        copy: 'mautic.focus.onboarding.style.modal.copy',
+                    }) }}
+                    {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
+                        eyebrow: 'mautic.focus.onboarding.style.eyebrow',
+                        heading: 'mautic.focus.onboarding.style.notification.heading',
+                        pictogram: 'notifications',
+                        copy: 'mautic.focus.onboarding.style.notification.copy',
+                    }) }}
+                    {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
+                        eyebrow: 'mautic.focus.onboarding.style.eyebrow',
+                        heading: 'mautic.focus.onboarding.style.fullpage.heading',
+                        pictogram: 'maximize',
+                        copy: 'mautic.focus.onboarding.style.fullpage.copy',
+                    }) }}
+                </div>
+
+                {% endset %}
+
+                {{ include('@MauticCore/Components/content-group.html.twig', {
+                    heading: 'mautic.focus.onboarding.styles.heading',
+                    childContainer: formFeaturesContainer,
+                }) }}
+                {% endset %}
+                
+                {{ include('@MauticCore/Components/content-block.html.twig', {
+                    heading: 'mautic.focus.onboarding.heading',
+                    subheading: 'mautic.focus.onboarding.subheading',
+                    copy: '',
+                childContainer: childContainer,
+            }) }}
+        </div>
+    {% endif %}
 {% endif %}
