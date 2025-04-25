@@ -350,7 +350,9 @@ final class ReportSubscriber implements EventSubscriberInterface
                 self::PREFIX_TRACKABLES.'.channel_id = '.self::PREFIX_STATS.'.focus_id AND '.
                 self::PREFIX_TRACKABLES.'.channel = "focus"')
             ->leftJoin(self::PREFIX_STATS, MAUTIC_TABLE_PREFIX.'page_redirects', self::PREFIX_REDIRECTS,
-                self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id');
+                self::PREFIX_REDIRECTS.'.id = '.self::PREFIX_TRACKABLES.'.redirect_id')
+            ->orderBy(self::PREFIX_FOCUS.'.name', 'ASC')
+            ->addOrderBy(self::PREFIX_STATS.'.type', 'ASC');
 
         if ($event->hasColumn(self::PREFIX_FOCUS.'.category')) {
             $queryBuilder->leftJoin(self::PREFIX_FOCUS, MAUTIC_TABLE_PREFIX.'categories', self::PREFIX_CATEGORIES,
