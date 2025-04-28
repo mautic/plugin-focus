@@ -101,17 +101,6 @@
     {% else %}
         <div class="mt-80 col-md-offset-2 col-lg-offset-3 col-md-8 col-lg-5 height-auto">
             {% set childContainer %}
-                <!-- <div class="type-body-02 mb-32">
-                    {% include '@MauticCore/Components/list-unordered--checkmark.html.twig' with {
-                        'items': [
-                            'Standard contact forms, newsletter sign-ups, demo requests.',
-                            'Offer valuable assets (ebooks, guides) in exchange for form submission.',
-                            'Collect sign-ups for webinars, workshops, or conferences.',
-                            'Allow contacts to update their preferences or information.',
-                            'Create simple survey or feedback forms.',
-                        ]
-                    } %}
-                </div> -->
                 <div class="mb-md">
                     {% include '@MauticCore/Helper/pictogram.html.twig' with {
                         'pictogram': 'spotlight',
@@ -125,39 +114,34 @@
                     copy: 'mautic.focus.onboarding.purpose.copy',
                 }) }}
                 
-                {% set formFeaturesContainer %}
+                {% set focusFeaturesContainer %}
                 <div class="row">
                     {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
-                        eyebrow: 'mautic.focus.onboarding.style.eyebrow',
-                        heading: 'mautic.focus.onboarding.style.bar.heading',
                         pictogram: 'web--banners',
+                        heading: 'mautic.focus.onboarding.style.bar.heading',
                         copy: 'mautic.focus.onboarding.style.bar.copy',
                     }) }}
                     {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
-                        eyebrow: 'mautic.focus.onboarding.style.eyebrow',
-                        heading: 'mautic.focus.onboarding.style.modal.heading',
                         pictogram: 'design-and-development--01',
+                        heading: 'mautic.focus.onboarding.style.modal.heading',
                         copy: 'mautic.focus.onboarding.style.modal.copy',
                     }) }}
                     {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
-                        eyebrow: 'mautic.focus.onboarding.style.eyebrow',
-                        heading: 'mautic.focus.onboarding.style.notification.heading',
                         pictogram: 'notifications',
+                        heading: 'mautic.focus.onboarding.style.notification.heading',
                         copy: 'mautic.focus.onboarding.style.notification.copy',
                     }) }}
                     {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
-                        eyebrow: 'mautic.focus.onboarding.style.eyebrow',
-                        heading: 'mautic.focus.onboarding.style.fullpage.heading',
                         pictogram: 'maximize',
+                        heading: 'mautic.focus.onboarding.style.fullpage.heading',
                         copy: 'mautic.focus.onboarding.style.fullpage.copy',
                     }) }}
                 </div>
-
                 {% endset %}
 
                 {{ include('@MauticCore/Components/content-group.html.twig', {
                     heading: 'mautic.focus.onboarding.styles.heading',
-                    childContainer: formFeaturesContainer,
+                    childContainer: focusFeaturesContainer,
                 }) }}
                 {% endset %}
                 
