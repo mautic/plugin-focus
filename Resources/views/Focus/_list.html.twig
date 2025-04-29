@@ -116,26 +116,38 @@
                 
                 {% set focusFeaturesContainer %}
                 <div class="row">
-                    {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
-                        pictogram: 'web--banners',
-                        heading: 'mautic.focus.onboarding.style.bar.heading',
-                        copy: 'mautic.focus.onboarding.style.bar.copy',
-                    }) }}
-                    {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
-                        pictogram: 'design-and-development--01',
-                        heading: 'mautic.focus.onboarding.style.modal.heading',
-                        copy: 'mautic.focus.onboarding.style.modal.copy',
-                    }) }}
-                    {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
-                        pictogram: 'notifications',
-                        heading: 'mautic.focus.onboarding.style.notification.heading',
-                        copy: 'mautic.focus.onboarding.style.notification.copy',
-                    }) }}
-                    {{ include('@MauticCore/Components/content-item--pictogram.html.twig', {
-                        pictogram: 'maximize',
-                        heading: 'mautic.focus.onboarding.style.fullpage.heading',
-                        copy: 'mautic.focus.onboarding.style.fullpage.copy',
-                    }) }}
+                    <div class="col-sm-6 col-xs-12">
+                        {{ include('@MauticCore/Components/content-item.html.twig', {
+                            type: 'pictogram',
+                            pictogram: 'web--banners',
+                            heading: 'mautic.focus.onboarding.style.bar.heading',
+                            copy: 'mautic.focus.onboarding.style.bar.copy',
+                        }) }}
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        {{ include('@MauticCore/Components/content-item.html.twig', {
+                            type: 'pictogram',
+                            pictogram: 'design-and-development--01',
+                            heading: 'mautic.focus.onboarding.style.modal.heading',
+                            copy: 'mautic.focus.onboarding.style.modal.copy',
+                        }) }}
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        {{ include('@MauticCore/Components/content-item.html.twig', {
+                            type: 'pictogram',
+                            pictogram: 'notifications',
+                            heading: 'mautic.focus.onboarding.style.notification.heading',
+                            copy: 'mautic.focus.onboarding.style.notification.copy',
+                        }) }}
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        {{ include('@MauticCore/Components/content-item.html.twig', {
+                            type: 'pictogram',
+                            pictogram: 'maximize',
+                            heading: 'mautic.focus.onboarding.style.fullpage.heading',
+                            copy: 'mautic.focus.onboarding.style.fullpage.copy',
+                        }) }}
+                    </div>
                 </div>
                 {% endset %}
 
