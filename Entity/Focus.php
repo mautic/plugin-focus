@@ -3,12 +3,11 @@
 namespace MauticPlugin\MauticFocusBundle\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use Mautic\ApiBundle\Serializer\Driver\ApiMetadataDriver;
 use Mautic\CoreBundle\Doctrine\Mapping\ClassMetadataBuilder;
@@ -26,15 +25,15 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
         new Post(),
         new Put(),
         new Patch(),
-        new Delete()
+        new Delete(),
     ],
     normalizationContext: [
-        'groups' => ['focus:read'],
-        'swagger_definition_name' => 'Read'
+        'groups'                  => ['focus:read'],
+        'swagger_definition_name' => 'Read',
     ],
     denormalizationContext: [
-        'groups' => ['focus:write'],
-        'swagger_definition_name' => 'Write'
+        'groups'                  => ['focus:write'],
+        'swagger_definition_name' => 'Write',
     ]
 )]
 class Focus extends FormEntity implements UuidInterface
