@@ -38,7 +38,7 @@ final class ReportSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $columns = [
+        $commonColumns = [
             self::PREFIX_FOCUS.'.id' => [
                 'label'   => 'mautic.report.focus.id',
                 'type'    => 'int',
@@ -48,37 +48,37 @@ final class ReportSubscriber implements EventSubscriberInterface
             ],
             self::PREFIX_FOCUS.'.name' => [
                 'label'   => 'mautic.report.focus.name',
-                'type'    => 'html',
+                'type'    => 'string',
                 'alias'   => 'focus_name',
                 'formula' => 'MAX('.self::PREFIX_FOCUS.'.name)',
             ],
             self::PREFIX_FOCUS.'.category' => [
                 'label'   => 'mautic.report.focus.category',
-                'type'    => 'html',
+                'type'    => 'string',
                 'alias'   => 'category_name',
                 'formula' => 'MAX('.self::PREFIX_CATEGORIES.'.title)',
             ],
             self::PREFIX_FOCUS.'.description' => [
                 'label'   => 'mautic.report.focus.description',
-                'type'    => 'html',
+                'type'    => 'string',
                 'alias'   => 'focus_desc',
                 'formula' => 'MAX('.self::PREFIX_FOCUS.'.description)',
             ],
             self::PREFIX_FOCUS.'.focus_type' => [
                 'label'   => 'mautic.focus.thead.type',
-                'type'    => 'html',
+                'type'    => 'string',
                 'alias'   => 'focus_type',
                 'formula' => 'MAX('.self::PREFIX_FOCUS.'.focus_type)',
             ],
             self::PREFIX_FOCUS.'.style' => [
                 'label'   => 'mautic.report.focus.style',
-                'type'    => 'html',
+                'type'    => 'string',
                 'alias'   => 'focus_style',
                 'formula' => 'MAX('.self::PREFIX_FOCUS.'.style)',
             ],
             self::PREFIX_STATS.'.type' => [
                 'label' => 'mautic.focus.interaction',
-                'type'  => 'html',
+                'type'  => 'string',
                 'alias' => 'interaction_type',
             ],
             self::PREFIX_TRACKABLES.'.hits' => [
@@ -101,26 +101,6 @@ final class ReportSubscriber implements EventSubscriberInterface
                         GROUP BY fs2.focus_id
                     )
                     ELSE MAX('.self::PREFIX_TRACKABLES.'.hits)
-                END',
-            ],
-            self::PREFIX_TRACKABLES.'.unique_hits' => [
-                'label'   => 'mautic.report.focus.uniquehits',
-                'type'    => 'int',
-                'alias'   => 'unique_hit_count',
-                'formula' => 'CASE 
-                    WHEN '.self::PREFIX_STATS.'.type = "view" THEN (
-                        SELECT COUNT(DISTINCT fs2.lead_id) 
-                        FROM '.MAUTIC_TABLE_PREFIX.'focus_stats fs2 
-                        WHERE fs2.type = "view" 
-                        AND fs2.focus_id = '.self::PREFIX_STATS.'.focus_id
-                    )
-                    WHEN '.self::PREFIX_STATS.'.type = "submission" THEN (
-                        SELECT COUNT(DISTINCT fs2.lead_id) 
-                        FROM '.MAUTIC_TABLE_PREFIX.'focus_stats fs2 
-                        WHERE fs2.type = "submission" 
-                        AND fs2.focus_id = '.self::PREFIX_STATS.'.focus_id
-                    )
-                    ELSE MAX('.self::PREFIX_TRACKABLES.'.unique_hits)
                 END',
             ],
             self::PREFIX_STATS.'.conversion_rate_submission' => [
@@ -177,19 +157,42 @@ final class ReportSubscriber implements EventSubscriberInterface
             ],
             self::PREFIX_REDIRECTS.'.url' => [
                 'label'   => 'url',
-                'type'    => 'html',
+                'type'    => 'string',
                 'alias'   => 'redirect_url',
                 'formula' => 'MAX('.self::PREFIX_REDIRECTS.'.url)',
             ],
         ];
 
+        $statsColumns = [self::PREFIX_TRACKABLES.'.unique_hits' => [
+            'label'   => 'mautic.report.focus.uniquehits',
+            'type'    => 'int',
+            'alias'   => 'unique_hit_count',
+            'formula' => 'CASE 
+                    WHEN '.self::PREFIX_STATS.'.type = "view" THEN (
+                        SELECT COUNT(DISTINCT fs2.lead_id) 
+                        FROM '.MAUTIC_TABLE_PREFIX.'focus_stats fs2 
+                        WHERE fs2.type = "view" 
+                        AND fs2.focus_id = '.self::PREFIX_STATS.'.focus_id
+                    )
+                    WHEN '.self::PREFIX_STATS.'.type = "submission" THEN (
+                        SELECT COUNT(DISTINCT fs2.lead_id) 
+                        FROM '.MAUTIC_TABLE_PREFIX.'focus_stats fs2 
+                        WHERE fs2.type = "submission" 
+                        AND fs2.focus_id = '.self::PREFIX_STATS.'.focus_id
+                    )
+                    ELSE MAX('.self::PREFIX_TRACKABLES.'.unique_hits)
+                END',
+        ]];
+
         $data = [
             'display_name' => 'mautic.focus.graph.stats',
-            'columns'      => $columns,
+            'columns'      => array_merge($commonColumns, $statsColumns),
         ];
 
         $event->addTable(self::CONTEXT_FOCUS_STATS, $data, self::FOCUS_GROUP);
-        $this->addFocusLeadsTable($event, $columns);
+        if ($event->checkContext([self::CONTEXT_FOCUS_LEADS])) {
+            $this->addFocusLeadsTable($event, $commonColumns);
+        }
     }
 
     /**
@@ -286,9 +289,6 @@ final class ReportSubscriber implements EventSubscriberInterface
                 END',
             ],
         ];
-
-        // all row lead records are unique
-        unset($columns[self::PREFIX_TRACKABLES.'.unique_hits']);
 
         $data = [
             'display_name' => 'mautic.report.datasource.focus.leads',
