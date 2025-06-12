@@ -15,6 +15,7 @@ use Mautic\CoreBundle\Entity\FormEntity;
 use Mautic\CoreBundle\Entity\UuidInterface;
 use Mautic\CoreBundle\Entity\UuidTrait;
 use Mautic\FormBundle\Entity\Form;
+use Mautic\ProjectBundle\Entity\ProjectTrait;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -39,6 +40,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 class Focus extends FormEntity implements UuidInterface
 {
     use UuidTrait;
+    use ProjectTrait;
 
     /**
      * @var int
@@ -146,6 +148,11 @@ class Focus extends FormEntity implements UuidInterface
      */
     private $cache;
 
+    public function __construct()
+    {
+        $this->initializeProjects();
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint(
@@ -223,6 +230,7 @@ class Focus extends FormEntity implements UuidInterface
         $builder->addNullableField('html', 'text');
 
         static::addUuidField($builder);
+        self::addProjectsField($builder, 'focus_projects_xref', 'focus_id');
     }
 
     /**
@@ -230,7 +238,7 @@ class Focus extends FormEntity implements UuidInterface
      */
     public static function loadApiMetadata(ApiMetadataDriver $metadata): void
     {
-        $metadata
+        $metadata->setGroupPrefix('focus')
             ->addListProperties(
                 [
                     'id',
@@ -256,6 +264,8 @@ class Focus extends FormEntity implements UuidInterface
                 ]
             )
             ->build();
+
+        self::addProjectsInLoadApiMetadata($metadata, 'focus');
     }
 
     public function toArray(): array
