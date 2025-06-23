@@ -250,11 +250,10 @@
                   <input onclick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" readonly value="&lt;script src=&quot;{{ url('mautic_focus_generate', {'id': item.id}, true) }}&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot; async=&quot;async&quot;&gt;&lt;/script&gt;"/>
               {% endset %}
 
-              {{ include('@MauticCore/Components/tile--expandable-interactive.html.twig', {
-                  'tiles': [{
-                      'aboveFoldContent': aboveFoldContent,
-                      'belowFoldContent': belowFoldContent
-                  }]
+              {{ include('@MauticCore/Components/tile.html.twig', {
+                  'type': 'expandable-interactive',
+                  'aboveFoldContent': aboveFoldContent,
+                  'belowFoldContent': belowFoldContent,
               }) }}
           </div>
           <!--/ form HTML -->
