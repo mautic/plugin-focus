@@ -8,30 +8,40 @@ use Mautic\CoreBundle\Test\MauticMysqlTestCase;
 use MauticPlugin\MauticFocusBundle\Entity\Focus;
 use MauticPlugin\MauticFocusBundle\Model\FocusModel;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
-final class FocusControllerTest extends MauticMysqlTestCase
+class FocusPublicControllerFunctionalTest extends MauticMysqlTestCase
 {
-    public function testIndexActionIsSuccessful(): void
+    public function testGenerateFocusItemScript(): void
     {
-        $this->client->request(Request::METHOD_GET, '/s/focus');
-        $response = $this->client->getResponse();
+        /** @var FocusModel $focusModel */
+        $focusModel = static::getContainer()->get('mautic.focus.model.focus');
+        $focus      = $this->createFocus('popup');
+        $focusModel->saveEntity($focus);
 
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->client->request(Request::METHOD_GET, "/focus/{$focus->getId()}.js");
+        $response = $this->client->getResponse();
+        $this->assertTrue($response->isOk());
+        $this->assertNotEmpty($response->getContent());
     }
 
-    public function testNewActionIsSuccessful(): void
+    public function testInactiveFocusItemScript(): void
     {
-        $this->client->request(Request::METHOD_GET, '/s/focus/new');
-        $response = $this->client->getResponse();
+        /** @var FocusModel $focusModel */
+        $focusModel = static::getContainer()->get('mautic.focus.model.focus');
+        $focus      = $this->createFocus('popup');
+        $focus->setIsPublished(false);
+        $focusModel->saveEntity($focus);
 
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->client->request(Request::METHOD_GET, "/focus/{$focus->getId()}.js");
+        $response = $this->client->getResponse();
+        $this->assertTrue($response->isNotFound());
+        $this->assertEmpty($response->getContent());
     }
 
-    public function testRecentActivityFeedOnFocusDetailsPage(): void
+    private function createFocus(string $name): Focus
     {
         $focus = new Focus();
-        $focus->setName('Test Focus');
+        $focus->setName($name);
         $focus->setType('link');
         $focus->setStyle('modal');
         $focus->setProperties([
@@ -72,24 +82,6 @@ final class FocusControllerTest extends MauticMysqlTestCase
             'stop_after_conversion' => 1,
         ]);
 
-        /** @var FocusModel $focusModel */
-        $focusModel = static::getContainer()->get('mautic.focus.model.focus');
-        $focusModel->saveEntity($focus);
-
-        $this->em->clear();
-
-        $crawler = $this->client->request(Request::METHOD_GET, '/s/focus/edit/'.$focus->getId());
-        $this->assertResponseIsSuccessful();
-        $form    = $crawler->selectButton('focus_buttons_apply')->form();
-        $form['focus[isPublished]']->setValue('0');
-        $this->client->submit($form);
-
-        $crawler = $this->client->request(Request::METHOD_GET, '/s/focus/view/'.$focus->getId());
-        $this->assertResponseIsSuccessful();
-
-        $translator = self::getContainer()->get('translator');
-
-        $this->assertStringContainsString($translator->trans('mautic.core.recent.activity'), $this->client->getResponse()->getContent());
-        $this->assertCount(2, $crawler->filterXPath('//ul[contains(@class, "media-list-feed")]/li'));
+        return $focus;
     }
 }
