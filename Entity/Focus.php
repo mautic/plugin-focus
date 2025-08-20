@@ -4,6 +4,7 @@ namespace MauticPlugin\MauticFocusBundle\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
@@ -22,11 +23,12 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ApiResource(
     operations: [
-        new GetCollection(),
-        new Post(),
-        new Put(),
-        new Patch(),
-        new Delete(),
+        new GetCollection(uriTemplate: '/focus_items', security: "is_granted('focus:items:viewown')"),
+        new Get(uriTemplate: '/focus_items/{id}', security: "is_granted('focus:items:viewown')"),
+        new Post(uriTemplate: '/focus_items', security: "is_granted('focus:items:create')"),
+        new Put(uriTemplate: '/focus_items/{id}', security: "is_granted('focus:items:editown')"),
+        new Patch(uriTemplate: '/focus_items/{id}', security: "is_granted('focus:items:editother')"),
+        new Delete(uriTemplate: '/focus_items/{id}', security: "is_granted('focus:items:deleteown')"),
     ],
     normalizationContext: [
         'groups'                  => ['focus:read'],
