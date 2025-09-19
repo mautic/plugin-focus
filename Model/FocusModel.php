@@ -153,7 +153,7 @@ class FocusModel extends FormModel implements GlobalSearchInterface
         );
 
         $content = $this->getContent($focusArray, $isPreview, $url);
-        $data  = [
+        $data    = [
             'js'    => (new Minify\JS($javascript))->minify(),
             'focus' => InputHelper::minifyHTML($content['focus']),
             'form'  => InputHelper::minifyHTML($content['form']),
@@ -413,7 +413,7 @@ class FocusModel extends FormModel implements GlobalSearchInterface
         return $this->getStatRepository()->getClickThroughCount($focus->getId());
     }
 
-    private function generateTrackableUrl(Focus $focus, Lead $lead = null): ?string
+    private function generateTrackableUrl(Focus $focus, ?Lead $lead = null): ?string
     {
         $focusArray = $focus->toArray();
 

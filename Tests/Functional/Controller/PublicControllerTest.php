@@ -15,6 +15,7 @@ class PublicControllerTest extends MauticMysqlTestCase
 {
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testGenerateActionWithContactTokenInLinkUrl(): void
@@ -26,8 +27,22 @@ class PublicControllerTest extends MauticMysqlTestCase
         $focus->setStyle('modal');
         $focus->setProperties([
             'content' => [
-                'link_text' => 'Link text',
-                'link_url'  => $linkUrl,
+                'headline'        => '',
+                'link_text'       => 'Link text',
+                'link_url'        => $linkUrl,
+                'font'            => 'Arial, Helvetica, sans-serif',
+                'link_new_window' => 1,
+            ],
+            'when'  => 'immediately',
+            'modal' => [
+                'placement' => 'top',
+            ],
+            'frequency' => 'everypage',
+            'colors'    => [
+                'primary'     => '#4e5d9d',
+                'text'        => '#000000',
+                'button'      => '#fdb933',
+                'button_text' => '#ffffff',
             ],
         ]);
         $this->em->persist($focus);
@@ -44,8 +59,12 @@ class PublicControllerTest extends MauticMysqlTestCase
         $redirect = reset($redirects);
         Assert::assertSame($linkUrl, $redirect->getUrl());
 
-        $url = $this->router->generate('mautic_url_redirect', ['redirectId' => $redirect->getRedirectId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $url = twig_escape_filter($this->getContainer()->get('twig'), $url, 'js');
+        $url  = $this->router->generate('mautic_url_redirect', ['redirectId' => $redirect->getRedirectId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $twig = $this->getContainer()->get('twig');
+        if (!$twig->hasExtension(\Twig\Extension\EscaperExtension::class)) {
+            $twig->addExtension(new \Twig\Extension\EscaperExtension());
+        }
+        $url = $twig->getRuntime(\Twig\Runtime\EscaperRuntime::class)->escape($url, 'js');
         Assert::assertStringContainsString($url, $content);
     }
 }
