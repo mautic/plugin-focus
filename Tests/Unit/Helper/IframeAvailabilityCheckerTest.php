@@ -25,7 +25,7 @@ class IframeAvailabilityCheckerTest extends \PHPUnit\Framework\TestCase
     public function testCheckProtocolMismatch(): void
     {
         $currentScheme           = 'https';
-        $url                     = 'http://google.com';
+        $url                     = 'http://google.com'; // NOSONAR
         $translatedErrorMessage  = 'error';
         $expectedResponseContent = [
             'status'       => 0,
