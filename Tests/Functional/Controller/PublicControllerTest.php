@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * @copyright   2021 Mautic Contributors. All rights reserved
- * @author      Mautic
- *
- * @link        https://mautic.org
- *
- * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- */
-
 namespace MauticPlugin\MauticFocusBundle\Tests\Functional\Controller;
 
 use Mautic\CoreBundle\Test\MauticMysqlTestCase;
@@ -54,7 +45,7 @@ class PublicControllerTest extends MauticMysqlTestCase
         Assert::assertSame($linkUrl, $redirect->getUrl());
 
         $url = $this->router->generate('mautic_url_redirect', ['redirectId' => $redirect->getRedirectId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $url = $this->container->get('templating.engine.php')->escape($url, 'js');
+        $url = twig_escape_filter($this->getContainer()->get('twig'), $url, 'js');
         Assert::assertStringContainsString($url, $content);
     }
 }

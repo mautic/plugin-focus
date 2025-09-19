@@ -34,7 +34,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 use Twig\Environment;
 use Twig\Runtime\EscaperRuntime;
-use Minify_HTML;
 
 /**
  * @extends FormModel<Focus>
@@ -136,25 +135,28 @@ class FocusModel extends FormModel implements GlobalSearchInterface
      */
     public function generateJavascript(Focus $focus, $isPreview = false)
     {
-        $lead           = $this->leadModel->getCurrentLead();
+        $lead           = $this->contactTracker->getContact();
         $focusArray     = $focus->toArray();
-        $templateEngine = $this->templating->getTemplating();
         $url            = '';
 
         if ($trackableUrl = $this->generateTrackableUrl($focus, $lead)) {
             $url = '{focusClickUrl}';
         }
 
-        $javascript = $templateEngine->render('MauticFocusBundle:Builder:generate.js.php', [
-            'focus'    => $focusArray,
-            'preview'  => $isPreview,
-            'clickUrl' => $url,
-        ]);
+        $javascript = $this->twig->render(
+            '@MauticFocus/Builder/generate.js.twig',
+            [
+                'focus'    => $focus,
+                'preview'  => $isPreview,
+                'clickUrl' => $url,
+            ]
+        );
+
         $content = $this->getContent($focusArray, $isPreview, $url);
-        $data    = [
-            'js'    => Minify_HTML::minify($javascript),
-            'focus' => Minify_HTML::minify($content['focus']),
-            'form'  => Minify_HTML::minify($content['form']),
+        $data  = [
+            'js'    => (new Minify\JS($javascript))->minify(),
+            'focus' => InputHelper::minifyHTML($content['focus']),
+            'form'  => InputHelper::minifyHTML($content['form']),
         ];
 
         // Replace tokens to ensure clickthroughs, lead tokens etc. are appropriate
@@ -162,7 +164,7 @@ class FocusModel extends FormModel implements GlobalSearchInterface
         if ($trackableUrl) {
             $tokenEvent->addToken($url, $trackableUrl);
         }
-        $this->dispatcher->dispatch(FocusEvents::TOKEN_REPLACEMENT, $tokenEvent);
+        $this->dispatcher->dispatch($tokenEvent, FocusEvents::TOKEN_REPLACEMENT);
         $focusContent = $tokenEvent->getContent();
         $focusContent = str_replace('{focus_form}', $data['form'], $focusContent, $formReplaced);
         if (!$formReplaced && !empty($data['form'])) {
@@ -170,7 +172,7 @@ class FocusModel extends FormModel implements GlobalSearchInterface
             $focusContent .= $data['form'];
         }
 
-        $focusContent = $templateEngine->getEngine('MauticFocusBundle:Builder:content.html.php')->escape($focusContent, 'js');
+        $focusContent = $this->twig->getRuntime(EscaperRuntime::class)->escape($focusContent, 'js');
 
         return str_replace('{focus_content}', $focusContent, $data['js']);
     }
