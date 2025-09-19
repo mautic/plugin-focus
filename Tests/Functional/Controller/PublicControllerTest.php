@@ -13,11 +13,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PublicControllerTest extends MauticMysqlTestCase
 {
-    /**
-     * @runInSeparateProcess
-     *
-     * @preserveGlobalState disabled
-     */
+    #[\PHPUnit\Framework\Attributes\PreserveGlobalState(false)]
+    #[\PHPUnit\Framework\Attributes\RunInSeparateProcess]
     public function testGenerateActionWithContactTokenInLinkUrl(): void
     {
         $linkUrl = 'https://{contactfield=site_url}/tour';

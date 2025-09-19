@@ -130,10 +130,8 @@ class FocusModel extends FormModel implements GlobalSearchInterface
 
     /**
      * @param bool $isPreview
-     *
-     * @return string
      */
-    public function generateJavascript(Focus $focus, $isPreview = false)
+    public function generateJavascript(Focus $focus, $isPreview = false): string
     {
         $lead           = $this->contactTracker->getContact();
         $focusArray     = $focus->toArray();
