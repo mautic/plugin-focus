@@ -22,7 +22,6 @@ final class FocusFormAutoFillTest extends MauticMysqlTestCase
         $form = new Form();
         $form->setName('Test Form for Focus');
         $form->setAlias('testformforfocus');
-        $form->setFormType('standalone');
 
         $emailField = new Field();
         $emailField->setLabel('Email');
