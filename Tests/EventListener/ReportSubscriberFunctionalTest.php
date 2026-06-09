@@ -99,7 +99,7 @@ final class ReportSubscriberFunctionalTest extends MauticMysqlTestCase
 
         $focus1 = $this->createFocusItem('FocusItem1', 'doesAbc', 'link', 'modal');
         $focus2 = $this->createFocusItem('FocusItem2', 'doesAbcd', 'link', 'modal');
-        $focus3 = $this->createFocusItem('FocusItem3', 'doesAbcde', 'link', 'modal');
+        $this->createFocusItem('FocusItem3', 'doesAbcde', 'link', 'modal');
         $this->em->flush();
 
         $date = new \DateTime();
