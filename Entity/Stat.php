@@ -88,8 +88,6 @@ class Stat
 
     /**
      * @param mixed $focus
-     *
-     * @return Stat
      */
     public function setFocus($focus): static
     {
@@ -108,8 +106,6 @@ class Stat
 
     /**
      * @param mixed $type
-     *
-     * @return Stat
      */
     public function setType($type): static
     {
@@ -128,8 +124,6 @@ class Stat
 
     /**
      * @param mixed $typeId
-     *
-     * @return Stat
      */
     public function setTypeId($typeId): static
     {
@@ -148,8 +142,6 @@ class Stat
 
     /**
      * @param mixed $dateAdded
-     *
-     * @return Stat
      */
     public function setDateAdded($dateAdded): static
     {
@@ -166,9 +158,6 @@ class Stat
         return $this->lead;
     }
 
-    /**
-     * @return Stat
-     */
     public function setLead(Lead $lead): static
     {
         $this->lead = $lead;

@@ -278,8 +278,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param mixed $description
-     *
-     * @return Focus
      */
     public function setDescription($description): static
     {
@@ -298,9 +296,6 @@ class Focus extends FormEntity implements UuidInterface
         return $this->editor;
     }
 
-    /**
-     * @return Focus
-     */
     public function setEditor($editor): static
     {
         $this->isChanged('editor', $editor);
@@ -318,9 +313,6 @@ class Focus extends FormEntity implements UuidInterface
         return $this->html;
     }
 
-    /**
-     * @return Focus
-     */
     public function setHtml($html): static
     {
         $this->isChanged('html', $html);
@@ -338,9 +330,6 @@ class Focus extends FormEntity implements UuidInterface
         return $this->htmlMode;
     }
 
-    /**
-     * @return Focus
-     */
     public function setHtmlMode($htmlMode): static
     {
         $this->isChanged('htmlMode', $htmlMode);
@@ -360,8 +349,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param mixed $name
-     *
-     * @return Focus
      */
     public function setName($name): static
     {
@@ -382,8 +369,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param mixed $category
-     *
-     * @return Focus
      */
     public function setCategory($category): static
     {
@@ -404,8 +389,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param mixed $publishUp
-     *
-     * @return Focus
      */
     public function setPublishUp($publishUp): static
     {
@@ -426,8 +409,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param mixed $publishDown
-     *
-     * @return Focus
      */
     public function setPublishDown($publishDown): static
     {
@@ -448,8 +429,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param array<mixed> $properties
-     *
-     * @return Focus
      */
     public function setProperties($properties): static
     {
@@ -489,8 +468,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param mixed $type
-     *
-     * @return Focus
      */
     public function setType($type): static
     {
@@ -511,8 +488,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param mixed $style
-     *
-     * @return Focus
      */
     public function setStyle($style): static
     {
@@ -533,8 +508,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param mixed $website
-     *
-     * @return Focus
      */
     public function setWebsite($website): static
     {
@@ -555,8 +528,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param mixed $form
-     *
-     * @return Focus
      */
     public function setForm($form): static
     {
@@ -581,8 +552,6 @@ class Focus extends FormEntity implements UuidInterface
 
     /**
      * @param mixed $cache
-     *
-     * @return Focus
      */
     public function setCache($cache): static
     {
