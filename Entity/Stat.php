@@ -91,7 +91,7 @@ class Stat
      *
      * @return Stat
      */
-    public function setFocus($focus)
+    public function setFocus($focus): static
     {
         $this->focus = $focus;
 
@@ -111,7 +111,7 @@ class Stat
      *
      * @return Stat
      */
-    public function setType($type)
+    public function setType($type): static
     {
         $this->type = $type;
 
@@ -131,7 +131,7 @@ class Stat
      *
      * @return Stat
      */
-    public function setTypeId($typeId)
+    public function setTypeId($typeId): static
     {
         $this->typeId = $typeId;
 
@@ -151,7 +151,7 @@ class Stat
      *
      * @return Stat
      */
-    public function setDateAdded($dateAdded)
+    public function setDateAdded($dateAdded): static
     {
         $this->dateAdded = $dateAdded;
 
@@ -169,7 +169,7 @@ class Stat
     /**
      * @return Stat
      */
-    public function setLead(Lead $lead)
+    public function setLead(Lead $lead): static
     {
         $this->lead = $lead;
 
